@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import TopPage from '../components/TopPage.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <TopPage />
   </main>
 </template>
