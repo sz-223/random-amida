@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <form @submit="checkForm($event)" action="/about" method="post">
         <div class="selectwrap">
             <div class="selectbox">
                 参加人数:
@@ -23,7 +23,14 @@
                 <input type="text" v-model="OptionStore.member[i]" :placeholder="forPlaceHolder(i)">
             </div>
         </div>
-    </div>
+        <p v-if="OptionStore.errors.length">
+            <b>Please correct the following error(s):</b>
+            <ul>
+                <li v-for="error in OptionStore.errors" :key="error">{{ error }}</li>
+            </ul>
+        </p>
+        <input type="submit" value="Submit">
+    </form>
 </template>
 
 <script setup>
@@ -31,6 +38,18 @@
     const OptionStore = useOptionStore();
     function forPlaceHolder(i){
         return i + "人目の名前"
+    }
+    function checkForm(e){
+        OptionStore.errors = [];
+        if(!OptionStore.nPeople || !OptionStore.nWin || OptionStore.nPeople < OptionStore.nWin){
+            OptionStore.errors.push("人数の指定に誤りがあります");
+        }
+        if(OptionStore.nMember < OptionStore.nPeople){
+            OptionStore.errors.push("名前に空欄か重複している箇所があります");
+        }
+        if(OptionStore.errors.length === 0) return true;
+        e.preventDefault();
+        return false;
     }
 </script>
 
