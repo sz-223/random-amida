@@ -1,5 +1,5 @@
 <template>
-    <form @submit="checkForm($event)" action="/about" method="post">
+    <form @submit="checkForm($event)">
         <div class="selectwrap">
             <div class="selectbox">
                 参加人数:
@@ -35,7 +35,9 @@
 
 <script setup>
     import { useOptionStore } from '../stores/options'
+    import { useRouter } from 'vue-router'
     const OptionStore = useOptionStore();
+    const router = useRouter();
     function forPlaceHolder(i){
         return i + "人目の名前"
     }
@@ -47,7 +49,11 @@
         if(OptionStore.nMember < OptionStore.nPeople){
             OptionStore.errors.push("名前に空欄か重複している箇所があります");
         }
-        if(OptionStore.errors.length === 0) return true;
+        if(OptionStore.errors.length === 0){
+            OptionStore.complete = true;
+            router.push('/game');
+            return true;
+        }
         e.preventDefault();
         return false;
     }

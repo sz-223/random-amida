@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "distinct-colors": "^3.0.0",
     "pinia": "^2.0.28",
     "postcss-loader": "^7.0.2",
     "vue": "^3.2.45",
