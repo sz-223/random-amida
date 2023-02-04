@@ -29,7 +29,9 @@
                 <li v-for="error in OptionStore.errors" :key="error">{{ error }}</li>
             </ul>
         </p>
-        <input type="submit" value="Submit">
+        <div style="text-align:center; width=100% ">
+            <input type="submit" value="Submit">
+        </div>
     </form>
 </template>
 

@@ -7,14 +7,18 @@
                     <button @click="endTurn">操作を終える</button>
                 </div>
             </div>
-            <div v-else-if="!flagAnimationDone" :key="flagAnimationDone">
+            <div v-else-if="!flagAnimationDone">
                 <button @click="startAnimation">抽選をはじめる！</button>
             </div>
             <div v-else>
-                <div class="btn-result">
-                    <router-link to="/result">結果表示</router-link>
+                <div :key="flagAnimationDone" class="btn-result">
+                    <router-link to="/result" style="font-size:30px">結果表示</router-link>
                 </div>
             </div>
+        </div>
+        <div style="text-align: right; font-size: 12px;">
+            <p>salt: {{ GameStore.salt }}</p>
+            <p>sha256: {{ GameStore.hash }}</p>
         </div>
         <canvas width="900" height="600" ref="canvas" @mouseover="onMouseOver" @mouseout="onMouseOut" @mousemove="onMouseMove" @click="onClick"></canvas>
     </div>
@@ -28,25 +32,25 @@
 <script setup>
     import { useOptionStore } from '../stores/options'
     import { useGameStore } from '../stores/game'
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, getCurrentInstance } from 'vue'
     import distinctColors from 'distinct-colors'
     const OptionStore = useOptionStore();
     const GameStore = useGameStore();
+    const instance = getCurrentInstance();
     if(OptionStore.complete){
         GameStore.init(OptionStore.nPeople);
+        GameStore.makeHash(OptionStore.member, OptionStore.nWin);
     }
 
     const canvas = ref();
-    const xpos = []; let xwidth;
-    const init = () => {
+    var xpos = []; let xwidth;
+    const drawinit = () => {
         const widmargin = 100;
         const widspace = canvas.value.width - 2 * widmargin;
         for(let i = 0; i < OptionStore.nPeople; i++){
             xpos.push(widspace * i / (OptionStore.nPeople - 1) + widmargin);
         }
         xwidth = widspace / (OptionStore.nPeople - 1) - 10;
-        GameStore.hash = 1;
-
     };
     var nturn = OptionStore.turnpercap;
     var whosturn = ref(0);
@@ -70,7 +74,7 @@
 
     const drawCanvas = () => {
         if (canvas.value === undefined) return;
-        init();
+        drawinit();
         const context = canvas.value.getContext('2d');
         if (context === null) return;
         context.lineWidth = 1.5;
@@ -239,6 +243,7 @@
                 if(curY > linesBottom + 40) {
                     clearInterval(AnimeInterid);
                     flagAnimationDone = true;
+                    instance?.proxy?.$forceUpdate();
                 }
             }else{
                 if(curHor % VerCut != 0){
