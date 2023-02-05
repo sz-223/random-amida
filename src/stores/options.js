@@ -15,9 +15,13 @@ export const useOptionStore = defineStore('options', () => {
     var s = new Set(member_sliced.value);
     return s.size;
   })
+  const init = () => {
+    nPeople.value = 6;
+    nWin.value = 5;
+    member.value = [];
+    errors.value = [];
+    complete.value = true;
+  }
 
-  // for debug
-  member.value = [0, "a", "b", "c", "d", "e", "f"];
-
-  return { nPeople, nWin, member, errors, complete, turnpercap, nMember}
+  return { nPeople, nWin, member, errors, complete, turnpercap, nMember, init}
 })

@@ -327,6 +327,7 @@
             startPoint = -1;
             nturn--;
             lineno++;
+            instance?.proxy?.$forceUpdate();
         }
     }
 

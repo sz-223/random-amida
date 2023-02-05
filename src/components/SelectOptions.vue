@@ -59,6 +59,7 @@
         e.preventDefault();
         return false;
     }
+    OptionStore.init();
 </script>
 
 <style lang="scss">
