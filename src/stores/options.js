@@ -16,7 +16,7 @@ export const useOptionStore = defineStore('options', () => {
     return s.size;
   })
   const checkUndefined = computed(() => {
-    return member.value.includes(undefined);
+    return member_sliced.value.includes(undefined);
   })
   const init = () => {
     nPeople.value = 6;
