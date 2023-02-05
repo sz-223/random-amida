@@ -49,7 +49,10 @@
             OptionStore.errors.push("人数の指定に誤りがあります");
         }
         if(OptionStore.nMember < OptionStore.nPeople){
-            OptionStore.errors.push("名前に空欄か重複している箇所があります");
+            OptionStore.errors.push("名前に重複している箇所があります");
+        }
+        if(OptionStore.checkUndefined == true){
+            OptionStore.errors.push("名前に空欄があります");
         }
         if(OptionStore.errors.length === 0){
             OptionStore.complete = true;
